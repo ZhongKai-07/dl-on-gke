@@ -1,0 +1,7 @@
+FROM tensorflow/tensorflow:latest-gpu
+
+WORKDIR /app
+
+COPY model/train.py .
+
+CMD ["python", "train.py"]

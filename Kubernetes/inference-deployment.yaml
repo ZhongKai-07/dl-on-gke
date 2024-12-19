@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mnist-inference
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mnist-inference
+  template:
+    metadata:
+      labels:
+        app: mnist-inference
+    spec:
+      containers:
+      - name: mnist-inference
+        image: gcr.io/[PROJECT_ID]/mnist-inference:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mnist-inference-service
+spec:
+  selector:
+    app: mnist-inference
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
